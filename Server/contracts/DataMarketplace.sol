@@ -86,7 +86,7 @@ contract DataMarketplace {
      * Define a function to get the data of the user
      */
 
-    function buyData(uint256 _followerCategory) public {
+    function buyData(uint256 _followerCategory) public returns (Data[] memory) {
         if (_followerCategory == 0) {
             // from 0-100
             // usdc charged would depend on the number of sellers and the category of the followers
@@ -97,10 +97,15 @@ contract DataMarketplace {
             // transfer this much usdc from buyer's account to this account
             USDCtoken.transferFrom(msg.sender, address(this), totalPrice);
             // transfer usdc from this account to all the buyers account
+            Data[] memory sellersData = new Data[](oneTo100Followers.length);
             for (uint i = 0; i < oneTo100Followers.length; i++) {
                 USDCtoken.transfer(oneTo100Followers[i], 10 ** 16);
+                // get all the details of the data sellers:
+                // sellersData.push(dataOf[oneTo100Followers[i]]);
+                sellersData[i] = dataOf[oneTo100Followers[i]];
             }
-        }
+            return sellersData;
+        } else return new Data[](0);
     }
 
     ///////////////////////////////////////
