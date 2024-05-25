@@ -1,5 +1,5 @@
-export const usdcContractAddress = '0x12Ad6076eb2E9885C3055DE0585e557aeA21D110'
-export const dataMarketplaceContractAddress = '0x997C9F780F32AEBd4e57A7b7d4FbaFA09d62515f'
+export const usdcContractAddress = '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+export const dataMarketplaceContractAddress = '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0'
 export const usdcContractAbi = [
     {
         "inputs": [],
@@ -349,46 +349,65 @@ export const dataMarketplaceContractAbi = [
             }
         ],
         "name": "buyData",
-        "outputs": [
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
             {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "senderAddress",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "intersets",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "followersCount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "tweetsCount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "repostsCount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "reputationScore",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct DataMarketplace.Data[]",
+                "internalType": "address",
                 "name": "",
-                "type": "tuple[]"
+                "type": "address"
             }
         ],
-        "stateMutability": "nonpayable",
+        "name": "buyer0AccessibleTill",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "buyer1AccessibleTill",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "name": "buyer2AccessibleTill",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -402,34 +421,9 @@ export const dataMarketplaceContractAbi = [
         "name": "dataOf",
         "outputs": [
             {
-                "internalType": "address",
-                "name": "senderAddress",
-                "type": "address"
-            },
-            {
                 "internalType": "string",
-                "name": "intersets",
+                "name": "",
                 "type": "string"
-            },
-            {
-                "internalType": "uint256",
-                "name": "followersCount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "tweetsCount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "repostsCount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "reputationScore",
-                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -446,44 +440,50 @@ export const dataMarketplaceContractAbi = [
         "name": "getDataOf",
         "outputs": [
             {
-                "components": [
-                    {
-                        "internalType": "address",
-                        "name": "senderAddress",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "string",
-                        "name": "intersets",
-                        "type": "string"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "followersCount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "tweetsCount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "repostsCount",
-                        "type": "uint256"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "reputationScore",
-                        "type": "uint256"
-                    }
-                ],
-                "internalType": "struct DataMarketplace.Data",
+                "internalType": "string",
                 "name": "",
-                "type": "tuple"
+                "type": "string"
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_followerCategory",
+                "type": "uint256"
+            }
+        ],
+        "name": "getFollowerCategoryData",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_category",
+                "type": "uint256"
+            }
+        ],
+        "name": "getFollowerCategoryRate",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "pure",
         "type": "function"
     },
     {
@@ -503,6 +503,32 @@ export const dataMarketplaceContractAbi = [
             }
         ],
         "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getString",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "pure",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getStringArray",
+        "outputs": [
+            {
+                "internalType": "string[]",
+                "name": "",
+                "type": "string[]"
+            }
+        ],
+        "stateMutability": "pure",
         "type": "function"
     },
     {
@@ -527,29 +553,14 @@ export const dataMarketplaceContractAbi = [
     {
         "inputs": [
             {
-                "internalType": "string",
-                "name": "_interests",
-                "type": "string"
-            },
-            {
                 "internalType": "uint256",
                 "name": "_followersCount",
                 "type": "uint256"
             },
             {
-                "internalType": "uint256",
-                "name": "_tweetsCount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_repostsCount",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_reputationScore",
-                "type": "uint256"
+                "internalType": "string",
+                "name": "userData",
+                "type": "string"
             }
         ],
         "name": "listData",

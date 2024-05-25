@@ -66,87 +66,23 @@ const App = () => {
   const listData = async () => {
     try {
       console.log('data is listing....')
-      console.log('dataMarketplaceContract', dataMarketplaceContract)
-      // const data = {
-      //   senderAddress: "0x9FBb455A94dF0FD1451ff21541E0fA69C94382C1",
-      //   interests: "coding, blockchain",
-      //   followersCount: 150,
-      //   tweetsCount: 200,
-      //   repostsCount: 50,
-      //   reputationScore: 85
-      // };
-      // const serializedData = JSON.stringify(data);
-      // console.log('serialized version of data is: ', serializedData)
+      const followersCount = 67
+      const interests = JSON.stringify(['health', 'finance', 'crypto'])
+      console.log('stringified interests: ', interests)
+      const data = {
+        followersCount: followersCount,
+        interests: interests,
+        tweetsCount: 200,
+        repostsCount: 50,
+        reputationScore: 85
+      };
+      const serializedData = JSON.stringify(data);
+      console.log('serialized version of data is: ', serializedData)
+
       await dataMarketplaceContract.listData(
-        "health_statistics, fitness",
-        61,
-        10,
-        5,
-        301
+        followersCount,
+        serializedData
       )
-      // await dataMarketplaceContract.listData(
-      //   "financial_reports, stock_prices",
-      //   2000,
-      //   12,
-      //   6,
-      //   450
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "social_media_trends, influencers",
-      //   180,
-      //   8,
-      //   4,
-      //   350
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "weather_data, climate_patterns",
-      //   1300,
-      //   9,
-      //   5,
-      //   280
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "ecommerce_sales, market_analysis",
-      //   2200,
-      //   15,
-      //   7,
-      //   500
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "real_estate_listings, property_values",
-      //   170,
-      //   11,
-      //   6,
-      //   390
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "automotive_industry, car_sales",
-      //   140,
-      //   7,
-      //   3,
-      //   320
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "tech_innovations, startup_data",
-      //   10,
-      //   10,
-      //   5,
-      //   360
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "travel_destinations, tourist_data",
-      //   70,
-      //   13,
-      //   6,
-      //   420
-      // )
-      // await dataMarketplaceContract.listData(
-      //   "gaming_statistics, player_data",
-      //   210,
-      //   14,
-      //   7,
-      //   480
-      // )
 
       console.log('data listed successfully')
     } catch (error) {
@@ -188,21 +124,29 @@ const App = () => {
 
   const checkBalance = async () => {
     const sellerAddress = '0x9FBb455A94dF0FD1451ff21541E0fA69C94382C1'
+    const buyerAddress = '0x2DAe7be736dc64a6816B2ba09bcC8Dd7A143D623'
     const balance = await usdcContract.balanceOf(dataMarketplaceContractAddress)
-    console.log('seller balance = ', ethers.utils.formatEther(balance))
+    console.log('selected balance = ', ethers.utils.formatEther(balance))
   }
+
   const checkApproval = async () => {
-    const buyerAddress = "0x2DAe7be736dc64a6816B2ba09bcC8Dd7A143D623"
+    const buyerAddress = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC"
     const allowance = await usdcContract.allowance(buyerAddress, dataMarketplaceContractAddress)
     console.log('allowance by buyer to dm: ', ethers.utils.formatEther(allowance))
   }
 
   const buyData = async () => {
-    console.log("buying data")
-    const data = await dataMarketplaceContract.buyData(0)
-    console.log('data bought: ', data)
+    console.log("buying dataaa")
+    // console.log("datampppppp", dataMarketplaceContract)
+    // await dataMarketplaceContract.buyData(0);
+    // console.log('Transaction hash:', txResponse.hash);
+    const data = await dataMarketplaceContract.getFollowerCategoryData(0)
+    console.log('data received from contract:😜', data)
+    data.map((data, index) => {
+      const serializedData = JSON.parse(data)
+      console.log("data at location", index, " ", serializedData.interests)
+    })
   }
-
 
   return (
     <div>
@@ -226,7 +170,7 @@ const App = () => {
         <button onClick={checkApproval}>check buyer dm allowance</button>
         <button onClick={buyData}>06_buy data</button>
       </div>
-      {/* <div>
+      <div>
         <h2>Web3 Functions</h2>
         <button onClick={() => PluralitySocialConnect.getAllAccounts()}>Get All Accounts</button>
         <br />
@@ -250,7 +194,7 @@ const App = () => {
         <br />
         <button onClick={connectToMetamask}>Connect wallet</button>
 
-      </div> */}
+      </div>
 
     </div>
   );

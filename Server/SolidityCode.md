@@ -6,11 +6,6 @@
 1. Array of sellers
 2. Struct of Data
 3. mapping from seller to his data
-4. 
-
-
-
-
 
 ### Functions
 1. **To list the user data**: This function will be invoked by the user who wants to sell his/her data. 
@@ -26,4 +21,8 @@
     4. then it will get all the data in an array and will return that.
 
 3. Constructor to withdraw the money collected in the contract by the owner
+
+
+# Sprint 2: to remove the DATA struct and introduce simple string
+
 

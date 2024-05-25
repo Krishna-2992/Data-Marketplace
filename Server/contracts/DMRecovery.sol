@@ -3,7 +3,7 @@ pragma solidity 0.8.24;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
-contract DataMarketplace {
+contract DataMarketplace2 {
     ////////////////////////////////
     ///////// Variables ////////////
     ////////////////////////////////
@@ -24,7 +24,7 @@ contract DataMarketplace {
     // here we are creating a mapping which will be set to the 10
     // here instead of just storing weather a buyer is eligible or not, we are storing the timestamp upto
     // which he would be eligible to access the data(i.e. 10 minutes from the payment)
-    mapping(address => uint256) public buyer0AccessibleTill;
+    mapping(address => uint256) public buyer0accessibleTill;
     mapping(address => uint256) public buyer1AccessibleTill;
     mapping(address => uint256) public buyer2AccessibleTill;
 
@@ -70,39 +70,21 @@ contract DataMarketplace {
      */
 
     function buyData(uint256 _followerCategory) public {
-        // here we are supposed to copy a complete mapping of the buyers and respond based on it
-        address[] memory sellerData;
         if (_followerCategory == 0) {
-            sellerData = oneTo100Followers;
-        } else if (_followerCategory == 1) {
-            sellerData = hundredTo1000Followers;
-        } else if (_followerCategory == 2) {
-            sellerData = moreThan1000Followers;
-        }
-
-        // from 0-100
-        // usdc charged would depend on the number of sellers and the category of the followers
-        uint256 followerCategoryRate = getFollowerCategoryRate(
-            _followerCategory
-        );
-        uint256 dataPrice = sellerData.length * followerCategoryRate;
-        uint256 commission = (dataPrice * 5) / 100;
-        uint256 totalPrice = dataPrice + commission;
-
-        // transfer this much usdc from buyer's account to this account
-        USDCtoken.transferFrom(msg.sender, address(this), totalPrice);
-
-        // transfer usdc from this account to all the buyers account
-        for (uint i = 0; i < sellerData.length; i++) {
-            USDCtoken.transfer(sellerData[i], 10 ** 16);
-        }
-        // Now this buyer will be eligible to access the data for next 15 minutes
-        if (_followerCategory == 0) {
-            buyer0AccessibleTill[msg.sender] = block.timestamp + 900;
-        } else if (_followerCategory == 1) {
-            buyer1AccessibleTill[msg.sender] = block.timestamp + 900;
-        } else if (_followerCategory == 2) {
-            buyer2AccessibleTill[msg.sender] = block.timestamp + 900;
+            // from 0-100
+            // usdc charged would depend on the number of sellers and the category of the followers
+            // calculate the number of sellers in this range * 10^16
+            uint256 dataPrice = oneTo100Followers.length * 10 ** 16;
+            uint256 commission = (dataPrice * 5) / 100;
+            uint256 totalPrice = dataPrice + commission;
+            // transfer this much usdc from buyer's account to this account
+            USDCtoken.transferFrom(msg.sender, address(this), totalPrice);
+            // transfer usdc from this account to all the buyers account
+            for (uint i = 0; i < oneTo100Followers.length; i++) {
+                USDCtoken.transfer(oneTo100Followers[i], 10 ** 16);
+            }
+            // Now this buyer will be eligible to access the data for next 15 minutes
+            buyer0accessibleTill[msg.sender] = block.timestamp + 900;
         }
     }
 
@@ -118,33 +100,15 @@ contract DataMarketplace {
         return array;
     }
 
-    function getFollowerCategoryData(
-        uint256 _followerCategory
-    ) public view returns (string[] memory) {
-        address[] memory sellerData;
-        if (_followerCategory == 0) {
-            require(
-                buyer0AccessibleTill[msg.sender] > block.timestamp,
-                "Data access denied!!"
-            );
-            sellerData = oneTo100Followers;
-        } else if (_followerCategory == 1) {
-            require(
-                buyer1AccessibleTill[msg.sender] > block.timestamp,
-                "Data access denied!!"
-            );
-            sellerData = hundredTo1000Followers;
-        } else if (_followerCategory == 2) {
-            require(
-                buyer2AccessibleTill[msg.sender] > block.timestamp,
-                "Data access denied!!"
-            );
-            sellerData = moreThan1000Followers;
-        }
-        uint256 arrayLength = sellerData.length;
+    function getStringActualData() public view returns (string[] memory) {
+        require(
+            buyer0accessibleTill[msg.sender] > block.timestamp,
+            "Data access denied!!"
+        );
+        uint256 arrayLength = oneTo100Followers.length;
         string[] memory array = new string[](arrayLength);
         for (uint i = 0; i < arrayLength; i++) {
-            array[i] = dataOf[sellerData[i]];
+            array[i] = dataOf[oneTo100Followers[i]];
         }
         return array;
     }
@@ -167,18 +131,5 @@ contract DataMarketplace {
 
     function getDataOf(address _seller) public view returns (string memory) {
         return dataOf[_seller];
-    }
-
-    function getFollowerCategoryRate(
-        uint _category
-    ) public pure returns (uint256) {
-        if (_category == 0) {
-            return 10 ** 16;
-        } else if (_category == 1) {
-            return 10 ** 17;
-        } else if (_category == 2) {
-            return 10 ** 18;
-        }
-        return 0;
     }
 }
