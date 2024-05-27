@@ -6,26 +6,21 @@ export default function FAQs() {
             <div className='flex flex-col items-left mt-4'>
                 <div className='pt-4'>
                     <div className='plainText font-semibold'>What type of data can I list on the marketplace?</div>
-                    <div className='plainText'>You can list various types of data such as social media insights, market research reports, and demographic information.</div>
+                    <div className='plainText'>You can list your social account data like your follower count, your number of tweets, your no. of reposts and your reputation score</div>
                 </div>
                 <div className='pt-4'>
                     <div className='plainText font-semibold'>How do I determine the price for my data listing?</div>
-                    <div className='plainText'>You can set the price for your data listing based on the value of the information provided and market demand.</div>
-                </div>
-                <div className='pt-4'>
-                    <div className='plainText font-semibold'>Can I update or remove my data listing after it has been posted?</div>
-                    <div className='plainText'>Yes, you can edit or delete your data listing at any time to keep it up to date.</div>
+                    <div className='plainText'>You need not worry about the pricing of the data as we provide the best pricing for your data based on our market analysis</div>
                 </div>
                 <div className='pt-4'>
                     <div className='plainText font-semibold'>Is my data secure on the marketplace?</div>
-                    <div className='plainText'>We prioritize data security and use encryption methods to protect all information shared on the platform.</div>
+                    <div className='plainText'>Yes your data is secure in the data marketplace and anyone can only get the access after making the payment</div>
                 </div>
                 <div className='pt-4'>
                     <div className='plainText font-semibold'>How can I purchase data on the marketplace?</div>
-                    <div className='plainText'>You can browse through available data listings, select the ones that interest you, and make a purchase securely through our platform.
-                    </div>
+                    <div className='plainText'>Head over to the buy section and get a detailed guide on how to purchase data on the marketplace</div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

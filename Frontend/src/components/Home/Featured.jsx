@@ -39,9 +39,11 @@ export default function Featured() {
                 <div className='flex justify-center p-8 items-center mb-8'>
                     <img src={datalisting} alt="" className='w-[45%] aspect-video h-auto rounded-lg' />
                     <div className='flex flex-col ml-12'>
-                        <div className='my-4 plainText'>List your data based on followers</div>
-                        <div className='text-2xl font-bold'>Data Listing</div>
-                        <div className='my-4 plainText'>Easily showcase and sell your data to interested buyers by listing it based on the number of followers you have.</div>
+                        <div className='my-4 plainText'>Grouped data purchase option</div>
+                        <div className='text-2xl font-bold'>Buy Data </div>
+                        <div className='my-4 plainText'>To use it for advanced tasks like research work and AI/ML model training<div>
+                        </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -20,6 +20,7 @@ export default function HomeHero() {
                     </div>
                 </div>
             </div>
+            <div className='text-4xl text-center my-8'>Powered by <span className='font-bold'>Plurality</span></div>
         </div>
     )
 }

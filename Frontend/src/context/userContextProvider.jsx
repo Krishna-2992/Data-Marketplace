@@ -125,7 +125,7 @@ const UserContextProvider = ({ children }) => {
                 serializedData
             )
 
-            console.log('data listed successfully')
+            alert('data listed successfully')
         } catch (error) {
             console.log('💥💥💥💥', error)
         }
