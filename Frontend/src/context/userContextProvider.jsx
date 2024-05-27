@@ -2,16 +2,23 @@ import React from 'react'
 import { useEffect, useRef, useState } from 'react';
 
 import UserContext from './userContext'
+import { ethers } from 'ethers';
 
 import PluralitySocialConnect from 'plurality-social-connect';
-import { dataMarketplaceContractAbi, dataMarketplaceContractAddress } from '../constants';
+import { dataMarketplaceContractAbi, dataMarketplaceContractAddress, usdcContractAbi, usdcContractAddress } from '../constants';
 
 const UserContextProvider = ({ children }) => {
-    // const childRef = useRef(null);
+    const childRef = useRef(null);
 
     const [isConnected, setIsConnected] = useState(false)
     const [userData, setUserData] = useState({})
-    const [childRef, setChildRef] = useState({})
+    const [address, setAddress] = React.useState('')
+    const [provider, setProvider] = React.useState(null)
+    const [signer, setSigner] = React.useState(null)
+    const [usdcContract, setUsdcContract] = React.useState(null)
+    const [dataMarketplaceContract, setDataMarketplaceContract] = React.useState(null)
+    const [allowance, setAllowance] = React.useState(0)
+    // const [childRef, setChildRef] = useState({})
 
     const handleProfileDataReturned = (data) => {
         console.log('👌👌👌')
@@ -22,10 +29,52 @@ const UserContextProvider = ({ children }) => {
         setUserData(completeData)
         setIsConnected(true)
         alert(JSON.stringify(data));
-        console.log("childRef.current ", childRef.current)
-        console.log("childRef.current ", childRef)
+        connectToMetamask()
+        console.log('connected to metamask as well')
         // childRef.current.closeSocialConnectPopup();
     };
+
+    const checkCorrectNetwork = async () => {
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0xaa36a7' }], // chainId must be in hexadecimal
+        })
+        window.ethereum.on('chainChanged', (newChainId) => {
+            console.log("Network changed to chain ID:", newChainId);
+            window.location.reload();
+        });
+    }
+    const connectToMetamask = async () => {
+        console.log('conecting to metamask')
+        try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum)
+            await provider.send('eth_requestAccounts', [])
+
+            await checkCorrectNetwork()
+
+            const signer = provider.getSigner()
+            const address = await signer.getAddress()
+
+            const usdcContract = new ethers.Contract(
+                usdcContractAddress,
+                usdcContractAbi,
+                signer
+            )
+            const dataMarketplaceContract = new ethers.Contract(
+                dataMarketplaceContractAddress,
+                dataMarketplaceContractAbi,
+                signer
+            )
+            setProvider(provider)
+            setSigner(signer)
+            setIsConnected(true)
+            setAddress(address)
+            setUsdcContract(usdcContract)
+            setDataMarketplaceContract(dataMarketplaceContract)
+        } catch (error) {
+            console.log('the error that occured is: ', error)
+        }
+    }
 
     const generateRemainingStatsData = (data) => {
         // data = {
@@ -69,13 +118,12 @@ const UserContextProvider = ({ children }) => {
             const serializedData = JSON.stringify(data)
             console.log('data in listing: ', serializedData)
 
+            PluralitySocialConnect.readFromContract(dataMarketplaceContractAddress, dataMarketplaceContractAbi, "getFollowerCategoryData", "1")
+
             // await dataMarketplaceContract.listData(
-            //     followersCount,
+            //     userData.stats.followerCount,
             //     serializedData
             // )
-
-            const result = await PluralitySocialConnect.readFromContract(dataMarketplaceContractAddress, dataMarketplaceContractAbi, "getNumberOfFollowers", "0")
-            console.log('number of followers in 0 category is: ', result)
 
             console.log('data listed successfully')
         } catch (error) {
@@ -83,12 +131,26 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
-    const tempFunction = () => {
-        console.log("tempfunction working")
+    const mintAndApprove = async () => {
+        try {
+            console.log("approving tokens to the user")
+            const amount = ethers.utils.parseEther('20000')
+            await usdcContract.mint(amount)
+            await usdcContract.approve(dataMarketplaceContractAddress, amount)
+            console.log('usdc tokens minted and the dm approved!!')
+        } catch (error) {
+            console.log('error: ', error)
+        }
+    }
+
+    const checkApproval = async () => {
+        const buyerAddress = address
+        const allowance = await usdcContract.allowance(buyerAddress, dataMarketplaceContractAddress)
+        setAllowance(allowance)
     }
 
     return (
-        <UserContext.Provider value={{ userData, isConnected, childRef, setChildRef, handleProfileDataReturned, tempFunction, listData }}>
+        <UserContext.Provider value={{ userData, isConnected, childRef, handleProfileDataReturned, listData }}>
             {children}
         </UserContext.Provider>
     )

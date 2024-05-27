@@ -13,17 +13,15 @@ export default function List() {
     const ref = useRef(null);
 
     const {
-        data,
         userData,
         isConnected,
         childRef,
-        setChildRef,
         handleProfileDataReturned,
         listData
     } = useContext(UserContext)
 
     const profileData = userData.profileData ? JSON.parse(userData.profileData) : ''
-    setChildRef(ref)
+    // setChildRef(ref)
 
     // console.log("profile data : ", profileData)
 
@@ -110,7 +108,7 @@ export default function List() {
                                 onWriteToContract={handleWriteToContract}
                                 onErrorMessage={handleErrorMessage}
                                 //customization={{ height: '200px', width: '500px', initialBackgroundColor: '#E8A123', initialTextColor: '#FFFFFF', flipBackgroundColor: '#12AE83', flipTextColor: '#FFFFFF'}}
-                                ref={ref}
+                                ref={childRef}
                             />
                         )
                     }

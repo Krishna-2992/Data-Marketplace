@@ -7,6 +7,9 @@ import mint from '../assets/mint.png'
 import approve from '../assets/approve.png'
 import buy from '../assets/buy.png'
 
+import { useContext, useRef } from 'react'
+import UserContext from '../context/userContext'
+
 export default function Buy() {
 
     const data = {
@@ -19,6 +22,14 @@ export default function Buy() {
         noOfReposts: 3,
         reputationScore: 82
     }
+
+    const {
+        userData,
+        isConnected,
+        childRef,
+        handleProfileDataReturned,
+        listData
+    } = useContext(UserContext)
 
     return (
         <div className='bg-[#181818] text-white'>

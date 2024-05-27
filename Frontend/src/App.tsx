@@ -8,18 +8,20 @@ import Token from './pages/Token';
 import Buy from './pages/Buy';
 import Navbar from './components/Navbar';
 
+import { usdcContractAbi, usdcContractAddress } from './constants';
+
 
 const App = () => {
-    // const childRef: any = useRef(null);
-    // const abi = '[{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]';
+    const childRef: any = useRef(null);
+    const abi = '[{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]';
 
     // Profile data handle
-    // const handleProfileDataReturned = (data: any) => {
-    //     const receivedData = JSON.parse(JSON.stringify(data))
-    //     console.log("Get profile data:", receivedData);
-    //     alert(JSON.stringify(data));
-    //     childRef.current.closeSocialConnectPopup();
-    // };
+    const handleProfileDataReturned = (data: any) => {
+        const receivedData = JSON.parse(JSON.stringify(data))
+        console.log("Get profile data:", receivedData);
+        alert(JSON.stringify(data));
+        childRef.current.closeSocialConnectPopup();
+    };
 
     // Web3 function handles
     const handleGetAllAccounts = (data: any) => {
@@ -128,8 +130,9 @@ const App = () => {
                 <br />
                 <button onClick={() => PluralitySocialConnect.readFromContract("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "retrieve")}>Read Contract</button>
                 <br />
-                <button onClick={() => PluralitySocialConnect.writeToContract("0x8E26aa0b6c7A396C92237C6a87cCD6271F67f937", abi, "store", "5")}>Write Contract</button>
             </div> */}
+            {/* <button onClick={() => PluralitySocialConnect.readFromContract(usdcContractAddress, usdcContractAbi, "mint", "1000000000000000000")}>Read Contract</button> */}
+            <button onClick={() => PluralitySocialConnect.writeToContract("0xad42C283220fee5897aF2fb14fcB17bb5eA52866", usdcContractAbi, "mint", "1000000000000000000")}>Write/mint Contract</button>
         </div>
     );
 };
