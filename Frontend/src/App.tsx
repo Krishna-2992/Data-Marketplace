@@ -132,7 +132,7 @@ const App = () => {
                 <br />
             </div> */}
             {/* <button onClick={() => PluralitySocialConnect.readFromContract(usdcContractAddress, usdcContractAbi, "mint", "1000000000000000000")}>Read Contract</button> */}
-            <button onClick={() => PluralitySocialConnect.writeToContract("0xad42C283220fee5897aF2fb14fcB17bb5eA52866", usdcContractAbi, "mint", "1000000000000000000")}>Write/mint Contract</button>
+            {/* <button onClick={() => PluralitySocialConnect.writeToContract("0xad42C283220fee5897aF2fb14fcB17bb5eA52866", usdcContractAbi, "mint", "1000000000000000000")}>Write/mint Contract</button> */}
         </div>
     );
 };

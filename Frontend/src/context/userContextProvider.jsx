@@ -118,12 +118,12 @@ const UserContextProvider = ({ children }) => {
             const serializedData = JSON.stringify(data)
             console.log('data in listing: ', serializedData)
 
-            PluralitySocialConnect.readFromContract(dataMarketplaceContractAddress, dataMarketplaceContractAbi, "getFollowerCategoryData", "1")
+            // PluralitySocialConnect.readFromContract(dataMarketplaceContractAddress, dataMarketplaceContractAbi, "getFollowerCategoryData", "1")
 
-            // await dataMarketplaceContract.listData(
-            //     userData.stats.followerCount,
-            //     serializedData
-            // )
+            await dataMarketplaceContract.listData(
+                userData.stats.followerCount,
+                serializedData
+            )
 
             console.log('data listed successfully')
         } catch (error) {
@@ -143,14 +143,40 @@ const UserContextProvider = ({ children }) => {
         }
     }
 
+    const handleBuyGroupedData = async (category) => {
+        console.log('handle buy gd called!!')
+        checkApproval()
+        console.log('allowance1111', allowance)
+        if (allowance < 100) {
+            await mintAndApprove()
+            console.log('ethers minted and approved')
+        }
+        buyData(category)
+    }
+
+    const buyData = async (category) => {
+        try {
+            console.log('buy data calledd')
+            const txResponse = await dataMarketplaceContract.buyData(category);
+            console.log('Transaction hash:', txResponse.hash);
+            const data = await dataMarketplaceContract.getFollowerCategoryData(category, { gasLimit: 200000 })
+            alert('check the console for data')
+            console.log('user data received from contract:', data)
+        } catch (error) {
+            console.log('error: ', error)
+        }
+    }
+
     const checkApproval = async () => {
-        const buyerAddress = address
-        const allowance = await usdcContract.allowance(buyerAddress, dataMarketplaceContractAddress)
-        setAllowance(allowance)
+        console.log('check approval called')
+        console.log('address: ', address)
+        const all = await usdcContract.allowance(address, dataMarketplaceContractAddress)
+        console.log('allowanceeeeee', ethers.utils.formatEther(all))
+        setAllowance(ethers.utils.formatEther(all))
     }
 
     return (
-        <UserContext.Provider value={{ userData, isConnected, childRef, handleProfileDataReturned, listData }}>
+        <UserContext.Provider value={{ userData, isConnected, childRef, handleProfileDataReturned, listData, handleBuyGroupedData, checkApproval, mintAndApprove }}>
             {children}
         </UserContext.Provider>
     )
